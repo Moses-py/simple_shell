@@ -1,23 +1,43 @@
 #include "main.h"
 
-void exec_cmd(char **argv){
-    char *command = NULL, *command_file_path = NULL, *exit_command = "exit", *env_command = "env";
+void exec_built_in(char *command_path, char **argv)
+{
+    if(execve(command_path, argv, NULL) == -1)
+        perror("Error: ");
+}
+
+void exec_cmd(int num_token, char **argv){
+    char *command = NULL, *command_file_path = NULL, *exit_command = "exit";
+    char *env_command = "env", *set_env_command = "setenv", *cd = "cd";
+    int pid;
 
     if (argv){
-	    /* get the command */
 	    command = argv[0];
-	    if(strcmp(command, exit_command) == 0){
-		    exit_shell();
+	    if(my_strcmp(command, exit_command) == 0){
+		   exit_shell(argv[1]);
 	    }
-	    if(strcmp(command, env_command) == 0)
+	    pid = fork();
+	    if(pid == -1)
 	    {
-	    	print_env();
+		exit(1);
+	    }else if(pid == 0)
+	    {
+	    	if(my_strcmp(command, env_command) == 0)
+			print_env();
+		else if(my_strcmp(command, set_env_command) == 0)
+			set_env(num_token, argv);
+		else if(my_strcmp(command, cd) == 0)
+			change_directory(num_token, argv);
+		else
+		{
+		command_file_path = command_loc(command);
+		exec_built_in(command_file_path, argv);
+		}
+		exit(0);
+	    }else {
+	    	int status;
+		wait(&status);
 	    }
-	    
-	    command_file_path = command_loc(command);
-	    if (execve(command_file_path, argv, NULL) == -1)
-		    perror("Error:");
     }
-
 }
 
