@@ -1,42 +1,29 @@
 #include "main.h"
-size_t my_getline(char **lineptr) {
-    static char buffer[BUFSIZ];
-    static int buffer_size = 0;
 
-    size_t line_size = 0;
-    char *line = NULL;
-    int newline_found = 0;
-    int i;
-
-    while (1) {
-        if (buffer_size == 0) {
-            buffer_size = read(STDIN_FILENO, buffer, BUFSIZ);
-            if (buffer_size == 0) {
-                break;
-            }
+char *my_getline(void) {
+    static char buffer[1024];
+    int position = 0, char_length = 0, i = 0;
+    char *read_line = NULL;
+    int character = 0;
+    
+    while (true) {
+        if (position >= char_length) {
+            char_length = read(STDIN_FILENO, buffer, 1024);
+            if (char_length <= 0) break;
+            position = 0;
         }
-        for (i = 0; i < buffer_size; i++) {
-            if (buffer[i] == '\n') {
-                newline_found = 1;
-                line = malloc(line_size + i + 1);
-                memcpy(line, *lineptr, line_size);
-                memcpy(line + line_size, buffer, i);
-                line_size += i;
-                line[line_size] = '\0';
-                buffer_size -= i + 1;
-                break;
-            }
-        }
-        if (newline_found) {
-            break;
-        }
-        line = malloc(line_size + buffer_size);
-        memcpy(line, *lineptr, line_size);
-        memcpy(line + line_size, buffer, buffer_size);
-        line_size += buffer_size;
-        buffer_size = 0;
+        char_length = buffer[position++];
+        if (character == '\n' || character == EOF) break;
+        if (i == 0) read_line = malloc(1);
+        else read_line = realloc(read_line, i + 1);
+        read_line[i++] = character;
     }
-    *lineptr = line;
-    return line_size;
+    if (i == 0 && char_length <= 0) return NULL;
+    if (i > 0) {
+        read_line = realloc(read_line, i + 1);
+        read_line[i] = '\0';
+    }
+    return read_line;
 }
+
 
