@@ -27,8 +27,10 @@ char *my_getline(void)
 		if (i == 0)
 			read_line = malloc(1);
 		else
+		{
 			read_line = realloc(read_line, i + 1);
 			read_line[i++] = character;
+		}
 	}
 	if (i == 0 && char_length <= 0)
 		return (NULL);

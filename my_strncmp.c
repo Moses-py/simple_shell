@@ -1,4 +1,4 @@
-#include "main.h"i
+#include "main.h"
 
 /**
  *my_strncmp - function that compares number of chars
