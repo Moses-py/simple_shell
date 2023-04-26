@@ -2,7 +2,7 @@
 
 /**
  *main- function that prints user's input
- *Return: void
+ *Return: int
  */
 
 int main(void)
@@ -18,7 +18,6 @@ int main(void)
 	{
 		_printf("%s", prompt);
 		num_chars_read = getline(&line_pointer, &n, stdin);
-
 	if (num_chars_read == -1)
 	{
 		printf("\nExiting shell ---/\n");
@@ -26,10 +25,7 @@ int main(void)
 	}
 	token_line_pointer_copy = malloc(sizeof(char) * num_chars_read);
 	if (token_line_pointer_copy == NULL)
-	{
-		perror("Memory allocation error");
 		return (-1);
-	}
 	strcpy(token_line_pointer_copy, line_pointer);
 	token = strtok(line_pointer, " \n");
 	while (token != NULL)
@@ -48,7 +44,6 @@ int main(void)
 	argv[i] = NULL;
 	exec_cmd(num_token, argv);
 	}
-
 	free(line_pointer);
 	free(token_line_pointer_copy);
 	return (0);

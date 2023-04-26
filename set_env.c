@@ -2,7 +2,7 @@
 
 /**
  *set_env- function that sets an environment variable
- *		with a given name ande value
+ *with a given name ande value
  *@num_args: number of arguments
  *@argv: array of string
  *Return: void
@@ -10,6 +10,8 @@
 
 void set_env(int num_args, char **argv)
 {
+	char *envi = NULL;
+
 	if (argv)
 	{
 		if (num_args != 3)
@@ -24,6 +26,14 @@ void set_env(int num_args, char **argv)
 				fprintf(stderr, "%s: %s\n", argv[0], strerror(errno));
 				exit(1);
 			}
+			else
+			{
+				envi = getenv(argv[1]);
+				printf("%s\n", envi);
+			}
+
 		}
+
 	}
+
 }

@@ -22,23 +22,18 @@ int change_directory(int num_args, char **argv)
 		dir = argv[1];
 	cur_working_directory = getcwd(NULL, 0);
 	if (cur_working_directory == NULL)
-		perror("getcwd");
 		return (1);
 	result = chdir(dir);
 	if (result != 0)
-		perror(dir);
 		return (1);
 	new_working_directory = getcwd(NULL, 0);
 	if (new_working_directory == NULL)
-		perror("getcwd");
 		return (1);
 	result = setenv("OLDPWD", cur_working_directory, 1);
 	if (result != 0)
-		perror("setenv");
 		return (1);
 	result = setenv("PWD", new_working_directory, 1);
 	if (result != 0)
-		perror("setenv");
 		return (1);
 
 	printf("%s\n", new_working_directory);
