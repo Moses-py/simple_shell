@@ -10,7 +10,8 @@
 
 void set_env(int num_args, char **argv)
 {
-	char * envi = NULL;
+	char *envi = NULL;
+
 	if (argv)
 	{
 		if (num_args != 3)
@@ -24,11 +25,15 @@ void set_env(int num_args, char **argv)
 			{
 				fprintf(stderr, "%s: %s\n", argv[0], strerror(errno));
 				exit(1);
-			}else
+			}
+			else
 			{
 				envi = getenv(argv[1]);
 				printf("%s\n", envi);
 			}
+
 		}
+
 	}
+
 }
