@@ -10,7 +10,7 @@
 
 void exec_built_in(char *command_path, char **argv)
 {
-	if (execve(command_path, argv, NULL) == -1)
+	if (execve(command_path, argv, environ) == -1)
 	perror("Error: ");
 }
 
