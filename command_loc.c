@@ -9,8 +9,8 @@
 
 char *command_loc(char *user_command)
 {
-	char *env_path, *env_path_duplicate, *command_path;
-	char *env_path_token;
+	char *env_path = NULL, *env_path_duplicate = NULL, *command_path = NULL;
+	char *env_path_token = NULL;
 	int command_length, token_length;
 	struct stat buffer;
 
@@ -23,7 +23,7 @@ char *command_loc(char *user_command)
 		while (env_path_token != NULL)
 		{
 			token_length = strlen(env_path_token);
-			command_path = malloc(command_length + token_length + 2);
+			command_path = malloc(command_length + token_length + 3);
 			strcpy(command_path, env_path_token);
 			strcat(command_path, "/");
 			strcat(command_path, user_command);
