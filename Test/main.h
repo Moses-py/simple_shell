@@ -53,7 +53,7 @@ typedef struct mssg
 typedef struct builtins
 {
 	char *builtin;
-	int (*func)(data_program *info);
+	int (*function)(data_program *info);
 } builtins;
 
 /*===== Main.c =====*/
@@ -88,10 +88,10 @@ int add_buff0(char *buffer, char *string);
 /*===== strtok_func.c =====*/
 
 /* Separate the string in tokens using a designed delimiter */
-void my_strtok(data_program *info);
+void tokenalization(data_program *info);
 
 /* Creates a pointer to a part of a string */
-char *_token(char *string, char *delim);
+char *my_strtok(char *string, char *delim);
 
 
 /*====== exec_func.c =====*/
@@ -122,7 +122,7 @@ int program_fd(data_program *info);
 /*======== myhelp_free.c ========*/
 
 /* Frees the memory for directories */
-void helpfree_arr(char **dir);
+void helpfree_arr(char **arr);
 
 /* Free the fields needed each loop */
 void helpfree_redata(data_program *info);
@@ -194,7 +194,7 @@ int _print(char *str);
 int _printe(char *str);
 
 /* Prints a string in the standar error */
-int _perror(int errormssg, data_program *info);
+int _print_error(int errormssg, data_program *info);
 
 
 /************** HELPERS FOR STRINGS MANAGEMENT **************/
@@ -209,7 +209,7 @@ int my_strlen(char *str);
 char *my_strdup(char *str);
 
 /* Compares two strings */
-int *my_strcom(char *str1, char *str2, int diff);
+int my_strcom(char *str1, char *str2, int diff);
 
 /* Concatenates two strings */
 char *my_strconcat(char *str1, char *str2);
@@ -227,7 +227,7 @@ void long_str(long digit, char *str, int root);
 int my_atoi(char *str);
 
 /* count the coincidences of character in string */
-int num_char(char *str, char *char);
+int num_char(char *str, char *charac);
 
 
 /*======== alias_func.c ========*/

@@ -11,7 +11,7 @@ int list_builtins(data_program *info)
 	int i;
 	builtins options[] = {
 		{"exit", exit_func},
-		{"help", help_ builtin},
+		{"help", help_builtin},
 		{"cd", curr_dir_builtin},
 		{"alias", alias_builtin},
 		{"env", environ_builtin},

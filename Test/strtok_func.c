@@ -1,11 +1,11 @@
 #include "main.h"
 /**
- * _token - separates strings with delimiters
+ * my_strtok - separates strings with delimiters
  * @string: It´s pointer to array we receive in getstring.
  * @delim: It´s characters we mark off string in parts.
  * Return: A pointer to the created token
  */
-char *_token(char *string, char *delim)
+char *my_strtok(char *string, char *delim)
 {
 	int index;
 	static char *str;

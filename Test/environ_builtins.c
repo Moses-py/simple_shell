@@ -22,7 +22,7 @@ int environ_builtin(data_program *info)
 			{
 				cp_var = my_strdup(getval_env(tp, info));
 				if (cp_var != NULL)
-					setenv_env(tp, info->my_token[1] + a + 1, info);
+					setenv_env(tp, info->mytoken[1] + a + 1, info);
 
 				prt_env(info);
 				if (getval_env(tp, info) == NULL)
@@ -37,7 +37,7 @@ int environ_builtin(data_program *info)
 				}
 				return (0);
 			}
-			tp[a] = info->my_token[1][a];
+			tp[a] = info->mytoken[1][a];
 		}
 		errno = 2;
 		perror(info->cmd_name);

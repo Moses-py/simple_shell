@@ -79,7 +79,7 @@ int set_wd_builtin(data_program *info, char *new_directory)
 	if (!my_strcom(old_directory, new_directory, 0))
 	{
 		err_mssg = chdir(new_directory);
-		if (err_cmssg == -1)
+		if (err_mssg == -1)
 		{
 			errno = 2;
 			return (3);
@@ -139,7 +139,7 @@ int help_builtin(data_program *info)
  * @info: Pointer to struct containing the program's data
  * Return: zero if sucess, otherwise other num as declared
  */
-
+int alias_builtin(data_program *info)
 {
 	int a = 0;
 

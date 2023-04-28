@@ -43,7 +43,7 @@ void expand_var(data_program *info)
 			tempo ? add_buff0(line, tempo) : 1;
 			add_buff0(line, exp);
 		}
-	if (!(info->readin_put, line, 0))
+	if (!my_strcom(info->readin_put, line, 0))
 	{
 		free(info->readin_put);
 		info->readin_put = my_strdup(line);
