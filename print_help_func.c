@@ -22,7 +22,7 @@ int _printe(char *str)
 }
 
 /**
- * _perror - writes array of characters in the standart error
+ * _print_error - writes array of characters in the standart error
  * @info: a pointer to the program's info'
  * @errormssg: error code to print
  * Return: the number of bytes written or .
