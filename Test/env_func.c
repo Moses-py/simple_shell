@@ -2,7 +2,7 @@
 
 /**
  * getval_env -function that gets the value of
- *		an environment variable
+ * an environment variable
  * @k: the environment variable of interest
  * @info: pointer to the struct of the program's data
  * Return: a pointer to the value of the variable or NULL if it doesn't exist
@@ -29,7 +29,7 @@ char *getval_env(char *k, data_program *info)
 
 /**
  * setenv_env - function overwrites the value of the environment variable
- * 		or create if it does not exist
+ * or create if it does not exist
  * @k: variable to be set
  * @value: new value
  * @info: pointer to the struct of the program's data
