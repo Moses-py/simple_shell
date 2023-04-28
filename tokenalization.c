@@ -28,7 +28,7 @@ void tokenalization(data_program *info)
 	info->mytoken = malloc(iterator * sizeof(char *));
 	if (info->mytoken == NULL)
 	{
-		perror(info->program_name);
+		perror(info->exec_program);
 		exit(errno);
 	}
 	i = 0;

@@ -82,10 +82,10 @@ char **break_path(data_program *info)
 	dir_tok = malloc(sizeof(char *) * dir_count);
 
 	i = 0;
-	dir_tok[i] = my_strdup(_token(FULL, ":"));
+	dir_tok[i] = my_strdup(my_strtok(FULL, ":"));
 	while (dir_tok[i++])
 	{
-		dir_tok[i] = my_strdup(_token(NULL, ":"));
+		dir_tok[i] = my_strdup(my_strtok(NULL, ":"));
 	}
 
 	free(FULL);

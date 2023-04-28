@@ -1,43 +1,86 @@
 #include "main.h"
 
 /**
- *my_getline - function that reads a line of chars from standard input
- *Return: void
- */
-
-char *my_getline(void)
+*getline_func - function that reads a line of input
+*@info: pointer to struct containing thr program's data
+*Return: length of next command
+*/
+int getline_func(data_program *info)
 {
-	static char buffer[1024];
-	int position = 0, char_length = 0, i = 0;
-	char *read_line = NULL;
-	int character = 0;
+	ssize_t nreads_bytes, a = 0;
+	char buff[BUFFER_SIZE] = {'\0'};
+	static char *cmd_array[10] = {NULL};
+	static char op_array[10] = {'\0'};
 
-	while (true)
+
+	if (!cmd_array[0] || (op_array[0] == '&' && errno != 0) ||
+		(op_array[0] == '|' && errno == 0))
 	{
-		if (position >= char_length)
+		for (a = 0; cmd_array[a]; a++)
 		{
-			char_length = read(STDIN_FILENO, buffer, 1024);
-			if (char_length <= 0)
-			break;
-			position = 0;
+			free(cmd_array[a]);
+			cmd_array[a] = NULL;
 		}
-		char_length = buffer[position++];
-		if (character == '\n' || character == EOF)
-			break;
-		if (i == 0)
-			read_line = malloc(1);
-		else
+
+		nreads_bytes = read(info->file_des, &buff, BUFFER_SIZE - 1);
+		if (nreads_bytes == 0)
+			return (-1);
+
+		a = 0;
+		do {
+			cmd_array[a] = my_strdup(my_strtok(a ? NULL : buff, "\n;"));
+			a = logic_ops(cmd_array, a, op_array);
+		} while (cmd_array[a++]);
+	}
+
+	info->readin_put = cmd_array[0];
+	for (a = 0; cmd_array[a]; a++)
+	{
+		cmd_array[a] = cmd_array[a + 1];
+		op_array[a] = op_array[a + 1];
+	}
+
+	return (my_strlen(info->readin_put));
+}
+
+
+/**
+*logic_ops - function checks for and split the logical operators
+*		'&&' and '||' operators
+*@cmd_array: array of strings of commands
+*@a: current index in the cmd_array to be checked
+*@op_array: array of chars that stores the logical operators
+* Return: index of the last command in the cmd_array
+*/
+int logic_ops(char *cmd_array[], int a, char op_array[])
+{
+	char *tempo = NULL;
+	int p;
+
+	for (p = 0; cmd_array[a] != NULL  && cmd_array[a][p]; p++)
+	{
+		if (cmd_array[a][p] == '&' && cmd_array[a][p + 1] == '&')
 		{
-			read_line = realloc(read_line, i + 1);
-			read_line[i++] = character;
+			tempo = cmd_array[a];
+			cmd_array[a][p] = '\0';
+			cmd_array[a] = my_strdup(cmd_array[a]);
+			cmd_array[a + 1] = my_strdup(tempo + p + 2);
+			a++;
+			op_array[a] = '&';
+			free(tempo);
+			p = 0;
+		}
+		if (cmd_array[a][p] == '|' && cmd_array[a][p + 1] == '|')
+		{
+			tempo = cmd_array[a];
+			cmd_array[a][p] = '\0';
+			cmd_array[a] = my_strdup(cmd_array[a]);
+			cmd_array[a + 1] = my_strdup(tempo + p + 2);
+			a++;
+			op_array[a] = '|';
+			free(tempo);
+			p = 0;
 		}
 	}
-	if (i == 0 && char_length <= 0)
-		return (NULL);
-	if (i > 0)
-	{
-		read_line = realloc(read_line, i + 1);
-		read_line[i] = '\0';
-	}
-	return (read_line);
+	return (a);
 }
