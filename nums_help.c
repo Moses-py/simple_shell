@@ -36,7 +36,7 @@ void long_str(long digit, char *str, int root)
 
 /**
  * my_atoi - convert a str to an integer.
- * @s: pointer to str origen.
+ * @str: pointer to str origen.
  * Return: int of str or 0.
  */
 int my_atoi(char *str)
