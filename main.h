@@ -47,7 +47,7 @@ typedef struct mssg
 /**
  * struct builtins - the struct for the builtins
  * @builtin: the name of the builtin
- * @func: the associated function that
+ * @function: the associated function that
  *		implement to the builtin command
  */
 typedef struct builtins
