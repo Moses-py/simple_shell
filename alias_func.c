@@ -23,7 +23,7 @@ int alias_print(data_program *info, char *alias)
 			{
 				for (p = 0; info->list_alias[a][p]; p++)
 				{
-					buffer[p] = info->alias_list[a][p];
+					buffer[p] = info->list_alias[a][p];
 					if (info->list_alias[a][p] == '=')
 						break;
 				}

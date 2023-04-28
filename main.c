@@ -1,50 +1,120 @@
 #include "main.h"
 
 /**
- *main- function that prints user's input
- *Return: int
+ * main - initialize the variables of the program
+ * @argc: number of values received from the command line
+ * @argv: values received from the command line
+ * @env: number of values received from the command line
+ * Return: zero on succes.
  */
-
-int main(void)
+int main(int argc, char *argv[], char *env[])
 {
-	char *prompt = "simple_shell$ ", *line_pointer = NULL;
-	char *token, *token_line_pointer_copy = NULL, *delim = " \n";
-	size_t n = 0;
-	ssize_t num_chars_read;
-	int num_token = 0, i;
-	char **argv;
+	data_program structure = {NULL}, *info = &structure;
+	char *shell_prompt = "";
 
-	while (true)
+	set_data(info, argc, argv, env);
+
+	signal(SIGINT, hd_crtl_c);
+
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO) && argc == 1)
 	{
-		_printf("%s", prompt);
-		num_chars_read = getline(&line_pointer, &n, stdin);
-	if (num_chars_read == -1)
-	{
-		printf("\nExiting shell ---/\n");
-		return (-1);
+		errno = 2;
+		shell_prompt = PROMPT_MSG;
 	}
-	token_line_pointer_copy = malloc(sizeof(char) * num_chars_read + 1);
-	if (token_line_pointer_copy == NULL)
-		return (-1);
-	strcpy(token_line_pointer_copy, line_pointer);
-	token = strtok(line_pointer, delim);
-	while (token != NULL)
-	{
-		num_token++;
-		token = strtok(NULL, delim);
-	}
-	argv = malloc(sizeof(char *) * num_token + 1);
-	token = strtok(token_line_pointer_copy, delim);
-	for (i = 0; token != NULL; i++)
-	{
-		argv[i] = malloc(sizeof(char) * strlen(token) + 1);
-		strcpy(argv[i], token);
-		token = strtok(NULL, delim);
-	}
-	argv[i] = NULL;
-	exec_cmd(num_token, argv);
-	}
-	free(line_pointer);
-	free(token_line_pointer_copy);
+	errno = 0;
+	prompt_loop(shell_prompt, info);
 	return (0);
+}
+
+/**
+ * hd_crtl_c - print the shell_prompt in a new line
+ * when the signal SIGINT (ctrl + c) is send to the program
+ * @UNUSED: option of the prototype
+ */
+void hd_crtl_c(int opr UNUSED)
+{
+	_print("\n");
+	_print(PROMPT_MSG);
+}
+
+/**
+ * set_data - inicialize the struct with the info of the program
+ * @info: pointer to the structure of info
+ * @argv: array of arguments pased to the program execution
+ * @env: environ pased to the program execution
+ * @argc: number of values received from the command line
+ */
+void set_data(data_program *info, int argc, char *argv[], char **env)
+{
+	int i = 0;
+
+	info->exec_program = argv[0];
+	info->readin_put = NULL;
+	info->cmd_name = NULL;
+	info->num_cmd = 0;
+	if (argc == 1)
+		info->file_des = STDIN_FILENO;
+	else
+	{
+		info->file_des = open(argv[1], O_RDONLY);
+		if (info->file_des == -1)
+		{
+			_printe(info->exec_program);
+			_printe(": 0: Can't open ");
+			_printe(argv[1]);
+			_printe("\n");
+			exit(127);
+		}
+	}
+	info->mytoken = NULL;
+	info->envir = malloc(sizeof(char *) * 50);
+	if (env)
+	{
+		for (; env[i]; i++)
+		{
+			info->envir[i] = my_strdup(env[i]);
+		}
+	}
+	info->envir[i] = NULL;
+	env = info->envir;
+
+	info->list_alias = malloc(sizeof(char *) * 20);
+	for (i = 0; i < 20; i++)
+	{
+		info->list_alias[i] = NULL;
+	}
+}
+/**
+ * prompt_loop - its a infinite loop that shows the shell_prompt
+ * @shell_prompt: shell_prompt to be printed
+ * @info: its a infinite loop that shows the shell_prompt
+ */
+void prompt_loop(char *shell_prompt, data_program *info)
+{
+	int error_code = 0, string_len = 0;
+
+	while (++(info->num_cmd))
+	{
+		_print(shell_prompt);
+		error_code = string_len = getline_func(info);
+
+		if (error_code == EOF)
+		{
+			helpfree_alldata(info);
+			exit(errno);
+		}
+		if (string_len >= 1)
+		{
+			expnd_alias(info);
+			expand_var(info);
+			tokenalization(info);
+			if (info->mytoken[0])
+			{
+				error_code = exec(info);
+				if (error_code != 0)
+					_print_error(error_code, info);
+			}
+			helpfree_redata(info);
+		}
+	}
 }

@@ -28,7 +28,7 @@ int _printe(char *str)
  * Return: the number of bytes written or .
  * -1 if error, and errno.
  */
-int _perror(int errormssg, data_program *info)
+int _print_error(int errormssg, data_program *info)
 {
 	char num_str[10] = {'\0'};
 
