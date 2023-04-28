@@ -79,7 +79,7 @@ int logic_ops(char *cmd_array[], int a, char op_array[]);
 void expand_var(data_program *info);
 
 /* expand aliases */
-void expand_alias(dataprogram *info);
+void expnd_alias(data_program *info);
 
 /* append the string to the end of the buffer*/
 int add_buff0(char *buffer, char *string);
@@ -88,7 +88,7 @@ int add_buff0(char *buffer, char *string);
 /*===== strtok_func.c =====*/
 
 /* Separate the string in tokens using a designed delimiter */
-void break_string(data_program *info);
+void my_strtok(data_program *info);
 
 /* Creates a pointer to a part of a string */
 char *_token(char *string, char *delim);
@@ -140,7 +140,7 @@ void helpfree_alldata(data_program *info);
 int exit_func(data_program *info);
 
 /* Change the current directory */
-int curr_dir_builtin(data_of_program *data);
+int curr_dir_builtin(data_program *data);
 
 /* set the work directory */
 int set_wd_builtin(data_program *info, char *next_dir);
@@ -167,7 +167,7 @@ int unset_env_builtin(data_program *info);
 /************** HELPERS FOR ENVIRONMENT VARIABLES MANAGEMENT **************/
 
 
-/*======== env_management.c ========*/
+/*======== env_func.c ========*/
 
 /* Gets the value of an environment variable */
 char *getval_env(char *name, data_program *info);
