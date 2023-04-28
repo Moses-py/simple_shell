@@ -18,12 +18,12 @@ int alias_print(data_program *info, char *alias)
 		length = my_strlen(alias);
 		for (a = 0; info->list_alias[a]; a++)
 		{
-			if (!alias || (my_strcom(info->list_info[a], alias, length)
+			if (!alias || (my_strcom(info->list_alias[a], alias, length)
 				&&	info->list_alias[a][length] == '='))
 			{
 				for (p = 0; info->list_alias[a][p]; p++)
 				{
-					buffer[p] = data->alias_list[i][j];
+					buffer[p] = info->alias_list[a][p];
 					if (info->list_alias[a][p] == '=')
 						break;
 				}
@@ -75,7 +75,7 @@ char *alias_get(data_program *info, char *name)
 int alias_set(char *alias_str, data_program *info)
 {
 	int a, p;
-	char buffer[250] = {'0';
+	char buffer[250] = {'0'};
 	char *tempo = NULL;
 
 	if (alias_str == NULL ||  info->list_alias == NULL)

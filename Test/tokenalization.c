@@ -1,10 +1,10 @@
 #include "main.h"
 /**
- * my_strtok - this function breaks the string using a delim
+ * tokenalization- this function breaks the string using a delim
  * @info: a pointer to the program's info
  * Return: an array of the separated string
  */
-void my_strtok(data_of_program *info)
+void tokenalization(data_program *info)
 {
 	char *delim = " \t";
 	int i, x, iterator = 2, len;
@@ -28,14 +28,14 @@ void my_strtok(data_of_program *info)
 	info->mytoken = malloc(iterator * sizeof(char *));
 	if (info->mytoken == NULL)
 	{
-		_perror(info->program_name);
+		perror(info->program_name);
 		exit(errno);
 	}
 	i = 0;
-	info->mytoken[i] = my_strdup(_token(info->readin_put, delim));
+	info->mytoken[i] = my_strdup(my_strtok(info->readin_put, delim));
 	info->cmd_name = my_strdup(info->mytoken[0]);
 	while (info->mytoken[i++])
 	{
-		info->mytoken[i] = my_strdup(_strtok(NULL, delim));
+		info->mytoken[i] = my_strdup(my_strtok(NULL, delim));
 	}
 }

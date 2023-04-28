@@ -65,16 +65,16 @@ int my_atoi(char *str)
 /**
  * num_char - count the coincidences of char in str.
  * @str: pointer to str origen.
- * @char: str with  chars to be counted
+ * @charac: str with  chars to be counted
  * Return: int of str or 0.
  */
-int num_char(char *str, char *char)
+int num_char(char *str, char *charac)
 {
 	int index = 0, iterator = 0;
 
 	for (; str[index]; index++)
 	{
-		if (str[index] == char[0])
+		if (str[index] == charac[0])
 			iterator++;
 	}
 	return (iterator);
