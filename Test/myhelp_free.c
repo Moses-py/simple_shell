@@ -37,7 +37,8 @@ void helpfree_alldata(data_program *info)
 }
 
 /**
- * helpfree_arr - function that frees each pointer of an array of pointers and the
+ * helpfree_arr - function that frees each
+ * pointer of an array of pointers and the
  * array too
  * @arr: the array of pointers
  * Return: nothing
